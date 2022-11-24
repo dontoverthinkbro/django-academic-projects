@@ -1,0 +1,5 @@
+<form hx-post="/edit/{{ todo.id }}/" hx-target="closest article" hx-swap="outerHTML" class="flex">
+    <input type="text" name="title" value="{{ todo.title }}" autofocus
+        class="flex-1 mr-4 px-6 text-xs text-gray-900 border-0">
+    <button class="text-sky-600 hover:text-sky-900 mr-4">Save</button>
+</form>

@@ -1,0 +1,30 @@
+{% extends "core/base.html" %}
+{%block title%} Profile {% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto p-6 ">
+    <h1 class="mb-5 text-3xl">Edit account</h1>
+    <form action="." method="post" class="space-y-3">
+        {% csrf_token %}
+        <div>
+            <label for="First name">First name</label>
+            <input type="text" name="first_name" class="w-full mt-2 py-4 bg-gray-20  border-solid border-2"
+                value=" {{request.user.first_name}}">
+        </div>
+        <div>
+            <label for="First name">Last name</label>
+            <input type="text" name="last_name" class="w-full mt-2 py-4 bg-gray-20 border-solid border-2"
+                value=" {{request.user.last_name}}">
+        </div>
+        <div>
+            <label for="First name">Email</label>
+            <input type="text" name="email" class="w-full mt-2 py-4 bg-gray-20 border-solid border-2"
+                value=" {{request.user.email}}">
+        </div>
+        <div>
+            <button class="py-4 px-6 rounde-xl text-white bg-purple-500">Submit</button>
+        </div>
+    </form>
+
+</div>
+{% endblock %}

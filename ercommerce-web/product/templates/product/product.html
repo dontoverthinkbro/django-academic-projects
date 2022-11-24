@@ -1,0 +1,65 @@
+{% extends "core/base.html" %}
+{%block title%} {{product.name}} {% endblock %}
+
+{% block content %}
+
+
+<!-- want image next to content, flex wrap -->
+<div class="max-w-6xl mx-auto flex flex-wrap py-6 px-6 xl:px-0">
+    <!-- img on left side -->
+    <div class="images w-full mb-6 lg:mb-0 lg:w-3/5">
+        <img src="{% if product.image %} {{ product.image.url }} {%else%} https://via.placeholder.com/240x240x.jpg {% endif %} "
+            alt="image" class="rounded-xl">
+    </div>
+
+    <div class="information w-full lg:w-2/5 lg:p-6">
+        <h1 class="text-2xl">{{ product.name }}</h1>
+
+        <p class="mt-1 text-gray-400">${{ product.get_display_price }}</p>
+        <p class="mt-1 text-gray-400">Rating: {{product.get_rating}} / 5</p>
+        {% if product.description %}
+        <p class="mt-6 text-gray-700">{{product.description}}</p>
+        {% endif %}
+
+        <!-- inline block for margin works -->
+        <a href="#" class="mt-6 inline-block px-8 py-4 rounded-xl bg-purple-500 text-white hover:bg-purple-700"
+            hx-get="{% url 'add_to_cart' product.id %}" hx-target="#btn_menu_cart" hx-swap="outerHTML">Add to
+            cart</a>
+        <h2 class="text-xl mt-10">Write Reviews</h2>
+        {%if request.user.is_authenticated %}
+        <form action="." method="post" class="mt-6 mb-6 p-6 bg-gray-100 rounded-xl">
+            {%csrf_token%}
+            <div>
+                <label for="Rating">Rating</label>
+                <select name="rating" id="">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3" selected>3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <label for="Comment">Comment</label>
+            <div>
+                <textarea class="w-full" name="content" id="" cols="30" rows="10"></textarea>
+            </div>
+
+            <div class="inline-block px-8 py-4 rounded-xl bg-purple-500 hover:bg-purple-700 text-white"><button
+                    class="">Submit</button></div>
+        </form>
+        {%endif%}
+    </div>
+
+    <div class="w-full mt-0">
+
+        {% for review in product.reviews.all %}
+        <div class="px-4 py-6 bg-gray-100 rounded-xl mb-4">
+            <strong>Rating: </strong> {{review.rating}} / 5 <br>
+            <strong>Date:</strong> {{review.created_at}}<br>
+            <strong>Comments: </strong><br>
+            {{review.content}}
+        </div>
+        {%endfor%}
+    </div>
+</div>
+{% endblock %}
